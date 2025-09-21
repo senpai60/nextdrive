@@ -1,0 +1,17 @@
+extends layout
+
+block navbar
+  include partials/navbar
+
+block content
+  div(class="flex justify-center items-center w-full h-[80vh]")
+    div(class="w-[50%] h-full flex justify-center items-center")
+      include partials/hover_card
+    div(class="w-[50%] h-full relative")
+      div(class="w-full h-full py-25 px-10 text-left")
+        h1(class="uppercase font-medium antialiased tracking-tight leading-tight alan-sans text-[4vw]")
+        span(class="text-zinc-300 text-inherit text-[4vw] alan-sans") Access Your 
+        a(href="#",class="text-blue-500 text-inherit text-[4vw] text-yellow-400 font-bold underline") Files 
+        h1(class="text-zinc-300 text-[4vw] uppercase font-medium antialiased tracking-tight leading -8 alan-sans") Anywhere,
+        h1(class="text-zinc-300 text-[4vw] uppercase font-medium antialiased tracking-tight leading -8 alan-sans") Anytime!
+        h4(class="w-96 text-lg text-zinc-400 font-thin") Securely store, share, and collaborate on all your documents in the cloud. Your files, always at your fingertips.

@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+body {  
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+.alan-sans {
+  font-family: "Alan Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400; /* ya jo bhi chahiye */
+  font-style: normal;
+}
+button{
+  cursor: pointer;
+}

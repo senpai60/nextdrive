@@ -1,0 +1,67 @@
+/* From Uiverse.io by Pravins01 */
+.card {
+  position: relative;
+  width: 320px;
+  height: 400px;
+  background-color: #000; /* dark background */
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 12px;
+  gap: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #e4e4e7; /* zinc-200 text for readability */
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  left: -5px;
+  margin: auto;
+  width: 320px;
+  height: 400px;
+  border-radius: 10px;
+  background: linear-gradient(-45deg, #facc15 0%, #6366f1 50%, #06b6d4 100%);
+  /* yellow-400 → indigo-500 → cyan-500 */
+  z-index: -10;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(-45deg, #facc15 0%, #818cf8 50%, #22d3ee 100%);
+  /* yellow-400 → indigo-400 → cyan-400 */
+  transform: translate3d(0, 0, 0) scale(0.95);
+  filter: blur(20px);
+}
+
+.heading {
+  font-size: 20px;
+  text-transform: capitalize;
+  font-weight: 700;
+  color: #a1a1aa; /* zinc-400 */
+}
+
+.card p:not(.heading) {
+  font-size: 14px;
+  color: #71717a; /* zinc-500 */
+}
+
+.card p:last-child {
+  color: #facc15; /* yellow-400 highlight */
+  font-weight: 600;
+}
+
+.card:hover::after {
+  filter: blur(30px);
+}
+
+.card:hover::before {
+  transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
+}

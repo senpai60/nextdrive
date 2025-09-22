@@ -15,9 +15,11 @@
 </div>
 
 <div class="drive-wrapper w-full bg-zinc-950 py-8 px-50 py-20">
+  <input type="hidden" id="currentFolderId" value="">
   <div class="drive-folders w-full min-h-[80vh] grid grid-cols-8 gap-6">
     <% folders.forEach(function(folder) { %>
-    <div class="folder w-20 h-20 flex flex-col items-center gap-2">
+    <div class="folder w-20 h-20 
+flex flex-col items-center gap-2">
       <a href="/drive/folder/<%= folder._id %>" class="w-20 h-20 flex flex-col">
         <img src="/images/folders-yellow.svg" alt="" />
       </a>
@@ -25,7 +27,8 @@
         ><%= folder.name %></a
       >
     </div>
-    <% }); %>
+    <% });
+ %>
   </div>
 </div>
 

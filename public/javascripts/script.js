@@ -70,41 +70,42 @@ function createNewFolderForm() {
 
     let submitted = false;
 
-    const submitForm = async () => {
-      if (submitted) return;
-      submitted = true;
+    // public/javascripts/script.js - Corrected code
+const submitForm = async () => {
+  if (submitted) return;
+  submitted = true;
 
-      // Always read current value directly
-      const folderName = input.value.trim() || "NewFolder";
+  const folderName = input.value.trim() || "NewFolder";
+  const parentFolderId = document.getElementById('currentFolderId')?.value || null;
 
-      try {
-        const res = await fetch("/drive/createfolder", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: folderName }),
-        });
-        if (res.ok) {
-          const data = await res.json();
-          document.getElementById(wrapperId).remove();
-          activeFolderForm = null;
+  try {
+    const res = await fetch("/drive/createfolder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: folderName, parent: parentFolderId }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      document.getElementById(wrapperId).remove();
+      activeFolderForm = null;
 
-          const folderHTML = `
-        <div class="folder w-20 h-20 flex flex-col items-center gap-2">
-          <a href="/folder/${data._id}" class="w-20 h-20 flex flex-col">
-            <img src="/images/folders-yellow.svg" alt="">
-          </a>
-          <a href="/folder/${data._id}" class="text-[.6vw] text-center">${data.name}</a>
-        </div>
-      `;
-          driveFolders.insertAdjacentHTML("beforeend", folderHTML);
-        } else {
-          alert("Error creating folder");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Server error");
-      }
-    };
+      const folderHTML = `
+    <div class="folder w-20 h-20 flex flex-col items-center gap-2">
+      <a href="/drive/folder/${data._id}" class="w-20 h-20 flex flex-col">
+        <img src="/images/folders-yellow.svg" alt="">
+      </a>
+      <a href="/drive/folder/${data._id}" class="text-[.6vw] text-center">${data.name}</a>
+    </div>
+  `;
+      driveFolders.insertAdjacentHTML("beforeend", folderHTML);
+    } else {
+      alert("Error creating folder");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+};
 
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {

@@ -1,0 +1,24 @@
+<%- include('partials/header', {title: 'Express'}) %>
+
+<div class="flex justify-center items-center w-full h-[80vh]">
+  <div class="w-[50%] h-full flex justify-center items-center">
+    <%- include('partials/hover_card') %>
+  </div>
+  <div class="w-[50%] h-full relative">
+    <div class="w-full h-full py-25 px-10 text-left">
+      <h1 class="uppercase font-medium antialiased tracking-tight leading-tight alan-sans text-[4vw]">
+        <span class="text-zinc-300">Access Your </span>
+        <a href="drive" class="text-yellow-400 font-italic underline">Files</a>
+      </h1>
+      <h1 class="text-zinc-300 text-[4vw] uppercase font-medium antialiased tracking-tight leading-tight alan-sans">Anywhere,</h1>
+      <h1 class="text-zinc-300 text-[4vw] uppercase font-medium antialiased tracking-tight leading-tight alan-sans">Anytime!</h1>
+      <h4 class="w-96 text-lg text-zinc-400 font-thin">Securely store, share, and collaborate on all your documents in the cloud.</h4>
+      <h4 class="w-96 text-lg text-zinc-400 font-thin">Your files, always at your fingertips.</h4>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="/javascripts/script.js"></script>
+
+<%- include('partials/footer') %>

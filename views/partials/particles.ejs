@@ -1,0 +1,29 @@
+<div class="fixed inset-0 pointer-events-none z-0">
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 5s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 6s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 7s;"></div>
+</div>
+
+<style>
+    .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #fbbf24;
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: particle-float 8s infinite linear;
+    }
+    
+    @keyframes particle-float {
+        0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+        10% { opacity: 0.6; }
+        90% { opacity: 0.6; }
+        100% { transform: translateY(-10px) translateX(50px); opacity: 0; }
+    }
+</style>

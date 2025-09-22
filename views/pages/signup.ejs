@@ -1,0 +1,73 @@
+<%- include('../partials/header', {title: 'Sign Up - Cloud Drive'}) %>
+<%- include('../partials/particles') %>
+
+<main class="flex justify-center items-center min-h-[calc(100vh-5rem)] px-4 py-8 relative z-10">
+    <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center gap-12">
+        
+        <%- include('../partials/auth-hero-section') %>
+
+        <div class="w-full lg:w-1/2 max-w-md mx-auto">
+            <div class="gradient-border floating-animation glow-effect">
+                <div class="gradient-border-inner p-8">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold alan-sans text-zinc-100 mb-2">Create Account</h2>
+                        <p class="text-zinc-400">Join thousands of satisfied users</p>
+                    </div>
+
+                    <form class="space-y-6" id="signup-form" action="/auth/createuser" method="post">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-zinc-300 mb-2">First Name</label>
+                                <input name="firstName" type="text" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none" placeholder="John" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-zinc-300 mb-2">Last Name</label>
+                                <input name="lastName" type="text" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none" placeholder="Doe" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-zinc-300 mb-2">Email Address</label>
+                            <input name="email" type="email" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none" placeholder="john@example.com" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-zinc-300 mb-2">Password</label>
+                            <div class="relative">
+                                <input name="password" type="password" id="password" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none pr-12" placeholder="••••••••" required>
+                                <button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 hover:text-zinc-300" id="toggle-password">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-zinc-300 mb-2">Confirm Password</label>
+                            <input name="confirmpassword" type="password" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none" placeholder="••••••••" required>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <input type="checkbox" id="terms" class="mt-1 w-4 h-4 text-yellow-400 bg-zinc-800 border-zinc-600 rounded focus:ring-yellow-400 focus:ring-2" required>
+                            <label for="terms" class="text-sm text-zinc-400">
+                                I agree to the <a href="#" class="text-yellow-400 hover:text-yellow-300 underline">Terms of Service</a> and <a href="#" class="text-yellow-400 hover:text-yellow-300 underline">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold py-3 rounded-xl hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 shadow-lg hover:shadow-yellow-400/25 hover:scale-[1.02]">
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // GSAP Animations and other scripts from your signup.html
+</script>
+
+<%- include('../partials/footer') %>

@@ -31,6 +31,11 @@ app.use('/users', usersRouter);
 app.use('/drive', driveRouter);
 app.use('/auth', authRouter);
 
+app.use((req, res, next) => {
+  res.locals.authenticated = req.user ? true : false;
+  next();
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

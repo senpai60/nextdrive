@@ -1,16 +1,31 @@
 <nav class="w-full h-16 flex justify-between items-center bg-zinc-950 px-20 rounded shadow-lg shadow-zinc-900/50">
+  <!-- Logo -->
   <div class="w-10 h-10">
-    <img src="/images/logo.png">
+    <img src="/images/logo.png" alt="Logo">
   </div>
 
+  <!-- Links -->
   <div class="flex justify-between items-center gap-8">
     <a class="nav-link text-zinc-300 no-underline hover:text-yellow-400 transition" href="/">Home</a>
     <a class="nav-link text-zinc-300 no-underline hover:text-yellow-400 transition" href="/create">Create</a>
     <a class="nav-link text-zinc-300 no-underline hover:text-yellow-400 transition" href="/drive">Drive</a>
   </div>
 
+  <!-- Auth Buttons -->
   <div class="flex items-center gap-4">
-    <button class="bg-zinc-800 text-zinc-200 px-4 py-2 rounded hover:bg-zinc-700 hover:text-yellow-400 transition">Login</button>
-    <button class="bg-yellow-400 text-black font-medium px-4 py-2 rounded hover:bg-yellow-300 transition">Sign Up</button>
+    <% if (authenticated) { %>
+      <!-- Show only Log Out if user is logged in -->
+      <button class="bg-yellow-400 text-black font-medium px-4 py-2 rounded hover:bg-yellow-300 transition" onclick="window.location.href='/auth/logout'">
+        Log Out
+      </button>
+    <% } else { %>
+      <!-- Show Login & Sign Up if user is not logged in -->
+      <button class="bg-zinc-800 text-zinc-200 px-4 py-2 rounded hover:bg-zinc-700 hover:text-yellow-400 transition" onclick="window.location.href='/auth/login'">
+        Login
+      </button>
+      <button class="bg-yellow-400 text-black font-medium px-4 py-2 rounded hover:bg-yellow-300 transition" onclick="window.location.href='/auth/signup'">
+        Sign Up
+      </button>
+    <% } %>
   </div>
 </nav>

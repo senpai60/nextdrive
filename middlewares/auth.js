@@ -19,3 +19,5 @@ function isAuthenticated(req,res,next) {
         return res.status(403).redirect('/auth/login'); // invalid token
     }
 }
+
+module.exports = isAuthenticated;

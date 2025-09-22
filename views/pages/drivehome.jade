@@ -1,0 +1,28 @@
+
+extends ../layout
+
+block navbar
+    include ../partials/navbar
+
+block content
+    //- interactive btn
+    div(class="w-50 h-20 rounded-[20px] shadow-lg shadow-zinc-700/50 bg-zinc-900 fixed bottom-10 left-1/2 -translate-x-1/2 flex justify-center items-center p-2 gap-4")
+        div(class="w-8 h-8 rounded hover:scale-200 cursor-pointer")
+            img(src="/images/delete.svg", alt="")
+        div(class="w-13 h-13 rounded hover:scale-200 cursor-pointer")
+            img(src="/images/folder-add.svg", alt="",class="fill-yellow-400")
+        div(class="w-8 h-8 rounded hover:scale-200 cursor-pointer")
+            img(src="/images/branch.svg", alt="")
+            
+
+    //- 
+    div(class="drive-wrapper w-full bg-zinc-950 py-8 px-50 py-20")
+        div(class="drive-folders w-full min-h-[80vh] grid grid-cols-8 gap-6")
+            each name,i in folderNames
+                div(class="folder w-20 h-20 items-center flex flex-col gap-2")
+                    a(href="/folder" class="w-10 h-10 flex flex-col")
+                        img(src="/images/folders-yellow.svg" alt="")
+                    a(href="/folder" class="text-[.6vw]") #{name}
+
+
+

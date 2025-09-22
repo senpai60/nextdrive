@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Cloud Drive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+            min-height: 100vh;
+        }
+        
+        .alan-sans {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+        }
+        
+        .gradient-border {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            padding: 2px;
+            border-radius: 12px;
+        }
+        
+        .gradient-border-inner {
+            background: #18181b;
+            border-radius: 10px;
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+        
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+        
+        .input-focus:focus {
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.5);
+            border-color: #fbbf24;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fbbf24;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: particle-float 8s infinite linear;
+        }
+        
+        @keyframes particle-float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10px) translateX(50px); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 overflow-x-hidden">
+    <!-- Enhanced Navbar -->
+    <nav class="w-full h-20 flex justify-between items-center bg-zinc-950/80 backdrop-blur-md px-8 md:px-20 shadow-2xl shadow-zinc-900/50 border-b border-zinc-800/50 sticky top-0 z-50">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 group cursor-pointer">
+            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                <svg class="w-7 h-7 text-black" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"></path>
+                </svg>
+            </div>
+            <span class="text-xl font-bold alan-sans text-zinc-100 group-hover:text-yellow-400 transition-colors">CloudDrive</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="hidden md:flex items-center gap-8">
+            <a class="nav-link text-zinc-300 no-underline hover:text-yellow-400 transition-all duration-300 relative group" href="/">
+                Home
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a class="nav-link text-zinc-300 no-underline hover:text-yellow-400 transition-all duration-300 relative group" href="/create">
+                Create
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a class="nav-link text-zinc-300 no-underline hover:text-yellow-400 transition-all duration-300 relative group" href="/drive">
+                Drive
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-4">
+            <button class="hidden md:block bg-zinc-800/50 text-zinc-200 px-6 py-2.5 rounded-xl hover:bg-zinc-700 hover:text-yellow-400 transition-all duration-300 border border-zinc-700 hover:border-yellow-400/50">
+                Login
+            </button>
+            <button class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-medium px-6 py-2.5 rounded-xl hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 shadow-lg hover:shadow-yellow-400/25 hover:scale-105">
+                Sign Up
+            </button>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden p-2 text-zinc-300 hover:text-yellow-400 transition-colors" id="mobile-menu-btn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="md:hidden bg-zinc-900/95 backdrop-blur-md border-b border-zinc-800 hidden" id="mobile-menu">
+        <div class="px-8 py-4 space-y-3">
+            <a href="/" class="block text-zinc-300 hover:text-yellow-400 transition-colors py-2">Home</a>
+            <a href="/create" class="block text-zinc-300 hover:text-yellow-400 transition-colors py-2">Create</a>
+            <a href="/drive" class="block text-zinc-300 hover:text-yellow-400 transition-colors py-2">Drive</a>
+            <button class="w-full bg-zinc-800 text-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-700 hover:text-yellow-400 transition-all mt-4">
+                Login
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Particles Background -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 7s;"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex justify-center items-center min-h-[calc(100vh-5rem)] px-4 py-8 relative z-10">
+        <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center gap-12">
+            
+            <!-- Left Side - Marketing Content -->
+            <div class="w-full lg:w-1/2 text-center lg:text-left space-y-8">
+                <div class="space-y-4">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl uppercase font-bold antialiased tracking-tight leading-tight alan-sans">
+                        <span class="text-zinc-300">Join The</span>
+                        <span class="text-yellow-400 block">Cloud Revolution</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-zinc-400 font-light max-w-md mx-auto lg:mx-0">
+                        Experience the future of file storage and collaboration. Secure, fast, and always accessible.
+                    </p>
+                </div>
+                
+                <!-- Features -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto lg:mx-0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-yellow-400/20 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-zinc-300">End-to-end encryption</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-yellow-400/20 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-zinc-300">Lightning fast sync</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-yellow-400/20 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-zinc-300">Team collaboration</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-yellow-400/20 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-zinc-300">Advanced analytics</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Signup Form -->
+            <div class="w-full lg:w-1/2 max-w-md mx-auto">
+                <div class="gradient-border floating-animation glow-effect">
+                    <div class="gradient-border-inner p-8">
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold alan-sans text-zinc-100 mb-2">Create Account</h2>
+                            <p class="text-zinc-400">Join thousands of satisfied users</p>
+                        </div>
+
+                        <form class="space-y-6" id="signup-form">
+                            <!-- Name Fields -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-zinc-300 mb-2">First Name</label>
+                                    <input type="text" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none" placeholder="John" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-zinc-300 mb-2">Last Name</label>
+                                    <input type="text" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none" placeholder="Doe" required>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label class="block text-sm font-medium text-zinc-300 mb-2">Email Address</label>
+                                <input type="email" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none" placeholder="john@example.com" required>
+                            </div>
+
+                            <!-- Password -->
+                            <div>
+                                <label class="block text-sm font-medium text-zinc-300 mb-2">Password</label>
+                                <div class="relative">
+                                    <input type="password" id="password" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none pr-12" placeholder="••••••••" required>
+                                    <button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 hover:text-zinc-300" id="toggle-password">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div>
+                                <label class="block text-sm font-medium text-zinc-300 mb-2">Confirm Password</label>
+                                <input type="password" class="w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-500 input-focus focus:outline-none" placeholder="••••••••" required>
+                            </div>
+
+                            <!-- Terms and Conditions -->
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" id="terms" class="mt-1 w-4 h-4 text-yellow-400 bg-zinc-800 border-zinc-600 rounded focus:ring-yellow-400 focus:ring-2" required>
+                                <label for="terms" class="text-sm text-zinc-400">
+                                    I agree to the <a href="#" class="text-yellow-400 hover:text-yellow-300 underline">Terms of Service</a> and <a href="#" class="text-yellow-400 hover:text-yellow-300 underline">Privacy Policy</a>
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold py-3 rounded-xl hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 shadow-lg hover:shadow-yellow-400/25 hover:scale-[1.02]">
+                                Create Account
+                            </button>
+
+                            <!-- Social Login -->
+                            <div class="relative">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-zinc-700"></div>
+                                </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="px-4 bg-zinc-950 text-zinc-500">or continue with</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <button type="button" class="flex items-center justify-center gap-2 px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl hover:bg-zinc-700/50 hover:border-zinc-600 transition-all duration-300">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                    <span class="text-zinc-300">Google</span>
+                                </button>
+                                <button type="button" class="flex items-center justify-center gap-2 px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl hover:bg-zinc-700/50 hover:border-zinc-600 transition-all duration-300">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                    </svg>
+                                    <span class="text-zinc-300">Twitter</span>
+                                </button>
+                            </div>
+
+                            <!-- Login Link -->
+                            <p class="text-center text-zinc-400">
+                                Already have an account? 
+                                <a href="/login" class="text-yellow-400 hover:text-yellow-300 underline font-medium">Sign in here</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // GSAP Animations
+        gsap.from(".floating-animation", {
+            duration: 1.5,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out",
+            delay: 0.3
+        });
+
+        gsap.from("h1", {
+            duration: 1,
+            y: 30,
+            opacity: 0,
+            stagger: 0.2,
+            ease: "power2.out"
+        });
+
+        gsap.from(".nav-link", {
+            duration: 0.8,
+            y: -20,
+            opacity: 0,
+            stagger: 0.1,
+            ease: "power2.out"
+        });
+
+        // Password toggle functionality
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle icon
+            this.innerHTML = type === 'password' 
+                ? `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>`
+                : `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                  </svg>`;
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Form submission
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Add loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = `
+                <div class="flex items-center justify-center gap-2">
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Creating Account...
+                </div>
+            `;
+            
+            // Simulate API call
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                alert('Account created successfully! Welcome to CloudDrive!');
+            }, 2000);
+        });
+
+        // Add floating particles dynamically
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            document.querySelector('.fixed.inset-0').appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                particle.remove();
+            }, 12000);
+        }
+
+        // Create new particles periodically
+        setInterval(createParticle, 2000);
+    </script>
+</body>
+</html>

@@ -1,14 +1,26 @@
-const express = require('express');
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
+const mongoose = require("mongoose");
 
-router.get('/',(req,res)=>{
-const folderNames = [
-  "Work", "Personal", "Photos", "Videos", "Projects", "Music", "College", "Travel",
-  "Books", "Movies", "Games", "Designs", "Coding", "Assignments", "Notes",
-  "Clients", "Invoices", "Ideas", "Archive", "Important", "Downloads", "Uploads",
-  "Wallpapers", "Screenshots", "Research", "Backups", "Secrets", "Resume",
-  "Certificates", "References"
-]
-    res.render('pages/drivehome',{folderNames})
-})
-module.exports = router
+const Folder = require("../models/folder");
+const File = require("../models/file");
+
+router.get("/", async (req, res) => {
+  const folders = await Folder.find({});
+  res.render("pages/drivehome", { folders });
+});
+
+router.post("/createfolder", async (req, res) => {
+  try {
+    let { name } = req.body;         // <-- use 'name', not foldername
+    name = name?.trim() || "NewFolder";
+    const newFolder = await Folder.create({ name });
+    res.json({ _id: newFolder._id, name: newFolder.name });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
+module.exports = router;

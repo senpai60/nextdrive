@@ -134,3 +134,21 @@ const submitForm = async () => {
 }
 
 createNewFolderForm();
+
+
+function setupAutoUpload() {
+  const fileUploadInput = document.getElementById('file-upload');
+  const uploadForm = document.getElementById('upload-form');
+
+  if (fileUploadInput && uploadForm) {
+    fileUploadInput.addEventListener('change', () => {
+      // Check if a file was selected
+      if (fileUploadInput.files.length > 0) {
+        uploadForm.submit();
+      }
+    });
+  }
+}
+
+// Call the new function to set up the event listener
+setupAutoUpload();

@@ -1,25 +1,12 @@
 <%- include('../partials/header', {title: 'Drive Home'}) %>
 
-<div
-  class="w-50 h-20 rounded-[20px] shadow-lg shadow-zinc-700/50 bg-zinc-900 fixed bottom-10 left-1/2 -translate-x-1/2 flex justify-center items-center p-2 gap-4"
->
-  <div class="w-8 h-8 rounded hover:scale-200 cursor-pointer">
-    <img src="/images/upload.svg" alt="" />
-  </div>
-  <div class="add-folder w-13 h-13 rounded hover:scale-200 cursor-pointer">
-    <img src="/images/folder-add.svg" alt="" class="fill-yellow-400" />
-  </div>
-  <div class="w-8 h-8 rounded hover:scale-200 cursor-pointer">
-    <img src="/images/branch.svg" alt="" />
-  </div>
-</div>
 
+<%- include('../partials/interactive-nav') %>
 <div class="drive-wrapper w-full bg-zinc-950 py-8 px-50 py-20">
-  <input type="hidden" id="currentFolderId" value="">
+  <input type="hidden" id="currentFolderId" value="" />
   <div class="drive-folders w-full min-h-[80vh] grid grid-cols-8 gap-6">
     <% folders.forEach(function(folder) { %>
-    <div class="folder w-20 h-20 
-flex flex-col items-center gap-2">
+    <div class="folder w-20 h-20 flex flex-col items-center gap-2">
       <a href="/drive/folder/<%= folder._id %>" class="w-20 h-20 flex flex-col">
         <img src="/images/folders-yellow.svg" alt="" />
       </a>
@@ -27,8 +14,7 @@ flex flex-col items-center gap-2">
         ><%= folder.name %></a
       >
     </div>
-    <% });
- %>
+    <% }); %>
   </div>
 </div>
 

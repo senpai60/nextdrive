@@ -3,6 +3,8 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const isAuthenticated = require('../middlewares/auth');
+// Make sure the path to your multer config is correct
+const upload = require('../middlewares/multerconfig'); 
 
 const Folder = require("../models/folder");
 const File = require("../models/file");
@@ -12,12 +14,14 @@ function getAuthStatus(req) {
   return req.user ? true : false;
 }
 
-// GET root drive home (all root folders)
+// GET root drive home (all root folders and files)
 router.get("/", isAuthenticated, async (req, res) => {
   try {
     const rootFolders = await Folder.find({ parent: null, user: req.user.id });
+    const rootFiles = await File.find({ folder: null, user: req.user.id }); // Find files in root
     res.render("pages/drivehome", { 
       folders: rootFolders, 
+      files: rootFiles, // Pass files to the template
       authenticated: getAuthStatus(req) 
     });
   } catch (err) {
@@ -48,6 +52,7 @@ router.get("/folder/:id", isAuthenticated, async (req, res) => {
   }
 });
 
+
 // POST create folder
 router.post("/createfolder", isAuthenticated, async (req, res) => {
   try {
@@ -61,5 +66,36 @@ router.post("/createfolder", isAuthenticated, async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+// --- CORRECTED File Upload Route ---
+router.post('/uploadfile', isAuthenticated, upload.single('file'), async (req, res) => {
+  try {
+    // If no file is uploaded, handle the error
+    if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+    }
+
+    const { parentFolder } = req.body;
+
+    const newFile = await File.create({
+      filename: req.file.originalname,
+      url: `/uploads/${req.file.filename}`, // URL to access the file
+      folder: parentFolder || null,
+      // Get the user ID from the authenticated user session
+      user: req.user.id 
+    });
+
+    // Redirect back to the folder where the file was uploaded
+    if (parentFolder) {
+      res.redirect(`/drive/folder/${parentFolder}`);
+    } else {
+      res.redirect('/drive');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
 
 module.exports = router;

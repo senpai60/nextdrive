@@ -27,7 +27,7 @@
       <div class="file w-20 h-20 flex flex-col items-center gap-2">
         <a href="<%= file.url %>" target="_blank" class="w-20 h-20 flex flex-col">
           <%# You can add a file icon here later %>
-          <img src="/images/file-icon.svg" alt="" /> 
+          <img src="/images/files/<%= file.filetype %>.svg" alt="" /> 
         </a>
         <a href="<%= file.url %>" target="_blank" class="text-[.6vw]">
           <%= file.filename %>

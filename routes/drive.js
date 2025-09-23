@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const path = require('path');
 
 const isAuthenticated = require('../middlewares/auth');
 // Make sure the path to your multer config is correct
@@ -77,10 +78,13 @@ router.post('/uploadfile', isAuthenticated, upload.single('file'), async (req, r
 
     const { parentFolder } = req.body;
 
+    const filetype = path.extname(req.file.originalname).slice(1)
+
     const newFile = await File.create({
       filename: req.file.originalname,
       url: `/uploads/${req.file.filename}`, // URL to access the file
       folder: parentFolder || null,
+      filetype,
       // Get the user ID from the authenticated user session
       user: req.user.id 
     });

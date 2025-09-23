@@ -38,6 +38,16 @@ router.get("/folder/:id", isAuthenticated, async (req, res) => {
     const folder = await Folder.findOne({ _id: folderId, user: req.user.id });
     if (!folder) return res.status(404).send("Folder not found");
 
+    // --- BREADCRUMB LOGIC START ---
+    const breadcrumbs = [];
+    let currentParent = await Folder.findById(folder.parent);
+    while (currentParent) {
+      breadcrumbs.push(currentParent);
+      currentParent = await Folder.findById(currentParent.parent);
+    }
+    breadcrumbs.reverse(); // Arrange from root to current parent
+    // --- BREADCRUMB LOGIC END ---
+
     const subfolders = await Folder.find({ parent: folderId, user: req.user.id });
     const files = await File.find({ folder: folderId, user: req.user.id });
 
@@ -45,6 +55,7 @@ router.get("/folder/:id", isAuthenticated, async (req, res) => {
       folder, 
       folders: subfolders, 
       files, 
+      breadcrumbs: breadcrumbs, // Pass breadcrumbs to the template
       authenticated: getAuthStatus(req) 
     });
   } catch (err) {
